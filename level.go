@@ -1,7 +1,7 @@
 package main
 
 const (
-	spawnX = 100
+	spawnX = 800
 	spawnY = 200
 )
 
