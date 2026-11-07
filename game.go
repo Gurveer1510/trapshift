@@ -49,7 +49,7 @@ func (g *Game) Update() error {
 		g.Respawn()
 		return nil
 	}
-
+	g.ProximityCheck()
 	g.resolvePlatformCollisions()
 	return nil
 }
@@ -79,7 +79,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	ebitenutil.DebugPrint(screen, fmt.Sprintf("Deaths: %d", g.DeathCount))
 	vector.FillRect(screen, g.PlayerX, g.PlayerY, playerSize, playerSize, color.RGBA{215, 31, 190, 255}, false)
 	for _, spike := range g.Spikes {
-		vector.FillRect(screen, spike.SpikeX, spike.SpikeY, spike.Width, spike.Height, color.RGBA{255, 0, 0, 255}, false)
+		if !spike.Hidden || (spike.Triggered && spike.Hidden) {
+			vector.FillRect(screen, spike.SpikeX, spike.SpikeY, spike.Width, spike.Height, color.RGBA{255, 0, 0, 255}, false)
+		}
 	}
 	for _, platform := range g.platforms {
 		vector.FillRect(screen, platform.PlatformX, platform.PlatformY, platform.Width, platform.Height, color.RGBA{69, 163, 64, 255}, false)
@@ -96,4 +98,10 @@ func (g *Game) Respawn() {
 	g.VelocityY = 0
 	g.DeathCount++
 	g.PlayerOnGround = false
+
+	for i, spike := range g.Spikes {
+		if spike.Hidden {
+			g.Spikes[i].Triggered = false
+		}
+	}
 }

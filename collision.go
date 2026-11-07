@@ -34,9 +34,17 @@ func (g *Game) checkSpikeCollision() bool {
 		if CheckHorizontalOverlap(g.PlayerX, g.PlayerY, playerSize, playerSize,
 			spike.SpikeX, spike.SpikeY, spike.Width, spike.Height) &&
 			CheckVerticalOverlap(g.PlayerX, g.PlayerY, playerSize, playerSize,
-				spike.SpikeX, spike.SpikeY, spike.Width, spike.Height) {
+				spike.SpikeX, spike.SpikeY, spike.Width, spike.Height) && spike.Triggered {
 			return true
 		}
 	}
 	return false
+}
+
+func (g *Game) ProximityCheck() {
+	for i, spike := range g.Spikes {
+		if spike.SpikeX-g.PlayerX+playerSize <= 100 {
+			g.Spikes[i].Triggered = true
+		}
+	}
 }

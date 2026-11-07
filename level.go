@@ -31,7 +31,7 @@ func newGame() *Game {
 			{PlatformX: 520, PlatformY: 450, Width: 440, Height: 126},
 		},
 		Spikes: []Spike{
-			{SpikeX: 250, SpikeY: 430, Width: 24, Height: 20},
+			{SpikeX: 250, SpikeY: 430, Width: 24, Height: 20, Hidden: false},
 			{SpikeX: 600, SpikeY: 430, Width: 24, Height: 20, Hidden: true},
 		},
 	}
